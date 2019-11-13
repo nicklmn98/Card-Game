@@ -9,21 +9,24 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Card Game</title>
 </head>
 
 <body>
     <div class="container">
         <div class="row">
             Set difficulty:
-            <select class="form-control">
+            <select id="difficulty" class="form-control">
 				<option value="2">2</option>
 				<option value="3">3</option>
 				<option value="4">4</option>
 				<option value="5">5</option>
 				<option value="6">6</option>
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="40">40</option>
 			</select>
-            <button class="btn btn-primary">Start game</button>
+            <button class="btn btn-primary" onclick="startGame()">Start game</button>
         </div>
         <div class="row">
             <div class="col-6">
@@ -44,16 +47,37 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="shuffle.js"></script>
     <script>
-        var deck = ['AC', '2C', '3C', '4C', '5C'];
-        deck = shuffle(deck);
+        var deck = [
+            'AC', '2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', '10C', 'JC', 'QC', 'KC',
+            'AD', '2D', '3D', '4D', '5D', '6D', '7D', '8D', '9D', '10D', 'JD', 'QD', 'KD',
+            'AH', '2H', '3H', '4H', '5H', '6H', '7H', '8H', '9H', '10H', 'JH', 'QH', 'KH',
+            'AS', '2S', '3S', '4S', '5S', '6S', '7S', '8S', '9S', '10S', 'JS', 'QS', 'KS'
+        ];
         var deck1 = [];
         var deck2 = [];
-        for (i = 0; i < deck.length; i++) {
-            card = '<div class="col-6"><img src="img/' + deck[i] + '.png" style="width:100%" /></div>';
+
+        function startGame() {
+            var element = document.getElementById('difficulty');
+            var value = element.options[element.selectedIndex].value;
             var deck1div = document.getElementById('deck1');
-            deck1div.innerHTML += card;
-            deck1.push(deck[i]);
-            deck2.push(deck[i]);
+            var deck2div = document.getElementById('deck2');
+            deck1div.innerHTML = '';
+            deck2div.innerHTML = '';
+            console.log(value);
+            deck = shuffle(deck);
+
+            for (i = 0; i < value; i++) {
+                deck1.push(deck[i]);
+                deck2.push(deck[i]);
+            }
+            shuffle(deck2);
+
+            for (i = 0; i < value; i++) {
+                card1 = '<div class="col-3 mb-2"><img data-card="' + deck1[i] + '" src="img/' + deck1[i] + '.png" style="width:100%" /></div>';
+                card2 = '<div class="col-3 mb-2"><img data-card="' + deck2[i] + '" src="img/' + deck2[i] + '.png" style="width:100%" /></div>';
+                deck1div.innerHTML += card1;
+                deck2div.innerHTML += card2;
+            }
         }
     </script>
 </body>
