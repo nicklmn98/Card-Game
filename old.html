@@ -55,10 +55,6 @@
         ];
         var deck1 = [];
         var deck2 = [];
-        var deck1matched = [];
-        var deck2matched = [];
-        var deck1flipped = '';
-        var deck2flipped = '';
 
         function startGame() {
             var element = document.getElementById('difficulty');
@@ -75,64 +71,37 @@
                 deck2.push(deck[i]);
             }
             shuffle(deck2);
-
+            drawDeck1();
             for (i = 0; i < value; i++) {
-                card1 = '<div class="col-3 mb-2"><img class="card" data-card="' + deck1[i] + '" src="img/red_back.png" style="width:100%" /></div>';
-                card2 = '<div class="col-3 mb-2"><img class="card" data-card="' + deck2[i] + '" src="img/yellow_back.png" style="width:100%" /></div>';
-                deck1div.innerHTML += card1;
+                card2 = '<div class="col-3 mb-2"><img data-card="' + deck2[i] + '" src="img/yellow_back.png" style="width:100%" /></div>';
                 deck2div.innerHTML += card2;
             }
         }
 
         document.getElementById("deck1").addEventListener('click', function(event) {
             if (event.target.getAttribute('data-card') == undefined) return;
-            deck1flipped = event.target.getAttribute('data-card');
-            console.log("deck1flipped - " + deck1flipped);
-            console.log("deck2flipped - " + deck2flipped);
-            if (deck2flipped.length > 0 && deck1flipped.length > 0) {
-                if (deck2flipped == deck1flipped) {
-                    deck1matched.push(event.target.getAttribute('data-card'));
-                    deck2matched.push(event.target.getAttribute('data-card'));
-                } else {
-                    deck1flipped = '';
-                    deck2flipped = '';
-                }
-            }
-            flipDeck('deck1', event.target.getAttribute('data-card'), 'red_back');
+            // if a card from this deck was flipped, then:
             console.log(event.target.getAttribute('data-card'));
+            drawDeck1();
             event.target.src = 'img/' + event.target.getAttribute('data-card') + '.png';
         });
-
         document.getElementById("deck2").addEventListener('click', function(event) {
             if (event.target.getAttribute('data-card') == undefined) return;
-            deck2flipped = event.target.getAttribute('data-card');
-            console.log("deck1flipped - " + deck1flipped);
-            console.log("deck2flipped - " + deck2flipped);
-            if (deck2flipped.length > 0 && deck1flipped.length > 0) {
-                if (deck2flipped == deck1flipped) {
-                    deck1matched.push(event.target.getAttribute('data-card'));
-                    deck2matched.push(event.target.getAttribute('data-card'));
-                } else {
-                    deck1flipped = '';
-                    deck2flipped = '';
-                }
-            }
-            flipDeck('deck2', event.target.getAttribute('data-card'), 'yellow_back');
+            // if a card from this deck was flipped, then:
+            // redraw deck2
+            // show only the cart that was flipped
             console.log(event.target.getAttribute('data-card'));
             event.target.src = 'img/' + event.target.getAttribute('data-card') + '.png';
         });
 
-        function flipDeck(deck, selectedCard = '', back = '') {
-            var deck = document.getElementById(deck);
-            var cards = deck.getElementsByClassName('card');
-            var currentCard;
-            for (i = 0; i < cards.length; i++) {
-                currentCard = cards[i].getAttribute('data-card');
-                if (deck == 'deck1') {
-                    if (currentCard != selectedCard && !deck1matched.includes(currentCard)) cards[i].src = 'img/' + back + '.png';
-                } else {
-                    if (currentCard != selectedCard && !deck2matched.includes(currentCard)) cards[i].src = 'img/' + back + '.png';
-                }
+        function drawDeck1() {
+            var element = document.getElementById('difficulty');
+            var value = element.options[element.selectedIndex].value;
+            var deck1div = document.getElementById('deck1');
+            deck1div.innerHTML = '';
+            for (i = 0; i < value; i++) {
+                card1 = '<div class="col-3 mb-2"><img data-card="' + deck1[i] + '" src="img/red_back.png" style="width:100%" /></div>';
+                deck1div.innerHTML += card1;
             }
         }
     </script>
