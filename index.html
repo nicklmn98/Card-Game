@@ -69,12 +69,20 @@
             deck2div.innerHTML = '';
             console.log(value);
             deck = shuffle(deck);
+            var deck1 = [];
+            var deck2 = [];
+
 
             for (i = 0; i < value; i++) {
                 deck1.push(deck[i]);
                 deck2.push(deck[i]);
             }
+
+            console.log(deck1);
+            console.log(deck2);
             shuffle(deck2);
+
+
 
             for (i = 0; i < value; i++) {
                 card1 = '<div class="col-3 mb-2"><img class="card" data-card="' + deck1[i] + '" src="img/red_back.png" style="width:100%" /></div>';
